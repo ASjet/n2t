@@ -8,23 +8,29 @@
 #include "VMparser.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-std::string GET_OPERATOR("@THAT\r\nD=M\r\n@THIS\r\n");
-std::string JUDGE("\r\nD=A\r\n@LCL\r\nM=D\r\n@THAT\r\nD=M\r\n@THIS\r\nD=M-D\r\n@PUSH_TRUE_TO_THIS\r\n");
+extern std::map<std::string,int> SEGMENT_MAP;
+extern std::string GET_OPERATOR;
+extern std::string JUDGE;
 ////////////////////////////////////////////////////////////////////////////////
 class CodeWriter
 {
 public:
     CodeWriter() = default;
-    CodeWriter(std::ofstream& _OutputFile): _File(_OutputFile),_ArithmeticCnt(0){}
+    CodeWriter(std::ofstream &_OutputFile) : File(&_OutputFile), ArithmeticCnt(0) {}
+    ~CodeWriter()
+    {
+        File = nullptr;
+    }
 
-    inline void constructor(std::ofstream & _OutputFile);
+    inline void constructor(std::ofstream &_OutputFile);
     void setFileName(std::string _FileName);
     void writeArithmetic(std::string _Command);
     void writePushPop(COMMAND_TYPE _Command, std::string _Segment, int _Index);
     void close();
+
 private:
-    std::ofstream& _File;
-    std::string _Name;
-    int _ArithmeticCnt;
+    std::ofstream *File;
+    std::string Name;
+    int ArithmeticCnt;
 };
 #endif

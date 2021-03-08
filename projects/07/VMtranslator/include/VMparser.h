@@ -1,6 +1,7 @@
 #ifndef VMPARSER_H
 #define VMPARSER_H
 
+#include <iostream>
 #include <string>
 #include <vector>
 #include <fstream>
@@ -23,41 +24,30 @@ enum COMMAND_TYPE
     C_CALL
 };
 
-std::vector<std::string> ARITHMETIC_LIST = {
-    "add",
-    "sub",
-    "neg",
-    "eq",
-    "gt",
-    "lt",
-    "and",
-    "or",
-    "not"
-};
-
-std::map<std::string,int> SEGMENT_MAP = {
-    {"constant",256}
-};
+extern std::vector<std::string> ARITHMETIC_LIST;
 
 ////////////////////////////////////////////////////////////////////////////////
 class Parser
 {
 public:
     Parser() = default;
-    Parser(std::ifstream &_InputFile) : _File(_InputFile) {}
+    Parser(std::ifstream &_InputFile) : File(&_InputFile) {}
+    ~Parser(){
+        File = nullptr;
+    }
 
-    inline void constructor(std::ifstream &_InputFile);
-    inline bool hasMoreCommands() const;
-    void advance();
-    inline COMMAND_TYPE commandType() const;
+    void constructor(std::ifstream &_InputFile);
+    bool hasMoreCommands() const;
+    bool advance();
+    COMMAND_TYPE commandType() const;
     std::string arg1() const;
     int arg2() const;
 
 private:
-    std::ifstream &_File;
-    std::string _CurCommand;
-    COMMAND_TYPE _CType;
-    std::vector<std::string> _Token;
+    std::ifstream* File;
+    std::string CurCommand;
+    COMMAND_TYPE CType;
+    std::vector<std::string> Token;
 };
 
 #endif

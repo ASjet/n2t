@@ -1,58 +1,95 @@
 #include "VMparser.h"
 ////////////////////////////////////////////////////////////////////////////////
-inline void Parser::constructor(std::ifstream &_InputFile)
+std::vector<std::string> ARITHMETIC_LIST = {
+    "add",
+    "sub",
+    "neg",
+    "eq",
+    "gt",
+    "lt",
+    "and",
+    "or",
+    "not"
+};
+////////////////////////////////////////////////////////////////////////////////
+void Parser::constructor(std::ifstream &_InputFile)
 {
-    _File = _InputFile;
+    File = &_InputFile;
 }
 
-inline bool Parser::hasMoreCommands() const
+bool Parser::hasMoreCommands() const
 {
-    return _File.eof;
+    return !File->eof();
 }
-void Parser::advance()
+bool Parser::advance()
 {
     bool is_arithmetic = false;
-    _CurCommand.clear();
-    std::getline(_File, _CurCommand);
-    stringSplit(_CurCommand, _Token);
+    Token.clear();
 
-    if (_Token[0] == "push")
-        _CType = C_PUSH;
-    else if (_Token[0] == "pop")
-        _CType = C_POP;
-    else if (_Token[0] == "label")
-        _CType = C_LABEL;
-    else if (_Token[0] == "if")
-        _CType = C_IF;
-    else if (_Token[0] == "goto")
-        _CType = C_GOTO;
-    else if (_Token[0] == "call")
-        _CType = C_CALL;
-    else if (_Token[0] = "function")
-        _CType = C_FUNCTION;
-    else if (_Token[0] = "return")
-        _CType = C_RETURN;
+    // Filte comments and blank line
+    do
+    {
+        CurCommand.clear();
+        if(hasMoreCommands())
+            std::getline(*File, CurCommand);
+        else
+            return false;
+    }
+    while(isComment(CurCommand));
+
+
+    int offset = CurCommand.size();
+    for(auto i = CurCommand.begin(); i != CurCommand.end(); ++i)
+    {
+        if(*i == '\r' || *i == '\n')
+            offset = i - CurCommand.begin();
+    }
+
+    CurCommand = CurCommand.substr(0, offset);
+
+    stringSplit(CurCommand, ' ', Token);
+
+    if (Token[0] == "push")
+        CType = C_PUSH;
+    else if (Token[0] == "pop")
+        CType = C_POP;
+    else if (Token[0] == "label")
+        CType = C_LABEL;
+    else if (Token[0] == "if")
+        CType = C_IF;
+    else if (Token[0] == "goto")
+        CType = C_GOTO;
+    else if (Token[0] == "call")
+        CType = C_CALL;
+    else if (Token[0] == "function")
+        CType = C_FUNCTION;
+    else if (Token[0] == "return")
+        CType = C_RETURN;
     else
     {
         is_arithmetic = false;
         for (auto ari : ARITHMETIC_LIST)
-            if (_Token[0] == ari)
+            if (Token[0] == ari)
                 is_arithmetic = true;
         if (is_arithmetic)
-            _CType = C_ARITHMETIC;
+            CType = C_ARITHMETIC;
         else
-            _CType = UNKNOWN;
+            CType = UNKNOWN;
     }
+    return -1;
 }
-inline COMMAND_TYPE Parser::commandType() const
+COMMAND_TYPE Parser::commandType() const
 {
-    return _CType;
+    return CType;
 }
-std::string Parser::string arg1() const
+std::string Parser::arg1() const
 {
-    return _Token[1];
+    if(CType == C_ARITHMETIC)
+        return Token[0];
+    else
+        return Token[1];
 }
 int Parser::arg2() const
 {
-    return std::stoi(_Token[2]);
+    return std::stoi(Token[2]);
 }
