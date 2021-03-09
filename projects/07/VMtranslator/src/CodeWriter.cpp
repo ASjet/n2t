@@ -2,6 +2,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 std::map<std::string, int> SEGMENT_MAP = {
     {"pointer", 3},
+    {"local",300},
+    {"argument",400},
+    {"this",3000},
+    {"that",3010},
+    {"temp",5}
 };
 std::string GET_OPERATOR("@THAT\nD=M\n@THIS\n");
 std::string JUDGE("\nD=A\n@LCL\nM=D\n@THAT\nD=M\n@THIS\nD=M-D\n@PUSH_TRUE_TO_THIS\n");
@@ -44,7 +49,7 @@ void CodeWriter::writeArithmetic(std::string _Command)
     {
         CodeWriter::writePushPop(C_POP,"pointer",1);
         CodeWriter::writePushPop(C_POP,"pointer",0);
-        *File << '@' << label << JUDGE << "D;JEQ\n"
+        *File << '@' << label << JUDGE << "D;JEQ\n@THIS\nM=0\n"
               << '(' << label << ")\n";
         CodeWriter::writePushPop(C_PUSH,"pointer",0);
     }
@@ -52,7 +57,7 @@ void CodeWriter::writeArithmetic(std::string _Command)
     {
         CodeWriter::writePushPop(C_POP,"pointer",1);
         CodeWriter::writePushPop(C_POP,"pointer",0);
-        *File << '@' << label << JUDGE << "D;JGT\n"
+        *File << '@' << label << JUDGE << "D;JGT\n@THIS\nM=0\n"
               << '(' << label << ")\n";
         CodeWriter::writePushPop(C_PUSH,"pointer",0);
     }
@@ -60,7 +65,7 @@ void CodeWriter::writeArithmetic(std::string _Command)
     {
         CodeWriter::writePushPop(C_POP,"pointer",1);
         CodeWriter::writePushPop(C_POP,"pointer",0);
-        *File << '@' << label << JUDGE << "D;JLT\n"
+        *File << '@' << label << JUDGE << "D;JLT\n@THIS\nM=0\n"
               << '(' << label << ")\n";
         CodeWriter::writePushPop(C_PUSH,"pointer",0);
     }
@@ -97,17 +102,13 @@ void CodeWriter::writePushPop(COMMAND_TYPE _Command, std::string _Segment, int _
             _Index %= 32768;
             *File << '@' << _Index << "\nD=A\n@SP\nA=M\nM=D\n";
         }
-        else if(_Segment == "pointer")
-        {
+        else
             *File << '@' << SEGMENT_MAP[_Segment] + _Index << "\nD=M\n@SP\nA=M\nM=D\n";
-        }
+
         *File << INC_STACK_POINTER;
     }
     else if(_Command == C_POP)
     {
-        if(_Segment == "pointer")
-        {
-            *File << "@SP\nM=M-1\nA=M\nD=M\n@" << SEGMENT_MAP[_Segment] + _Index << "\nM=D\n";
-        }
+        *File << "@SP\nM=M-1\nA=M\nD=M\n@" << SEGMENT_MAP[_Segment] + _Index << "\nM=D\n";
     }
 }

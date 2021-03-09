@@ -48,6 +48,8 @@ D=M
 D=M-D
 @PUSH_TRUE_TO_THIS
 D;JEQ
+@THIS
+M=0
 (StackTest.eq0)
 @3
 D=M
@@ -92,6 +94,8 @@ D=M
 D=M-D
 @PUSH_TRUE_TO_THIS
 D;JEQ
+@THIS
+M=0
 (StackTest.eq1)
 @3
 D=M
@@ -136,6 +140,8 @@ D=M
 D=M-D
 @PUSH_TRUE_TO_THIS
 D;JEQ
+@THIS
+M=0
 (StackTest.eq2)
 @3
 D=M
@@ -180,6 +186,8 @@ D=M
 D=M-D
 @PUSH_TRUE_TO_THIS
 D;JLT
+@THIS
+M=0
 (StackTest.lt3)
 @3
 D=M
@@ -224,6 +232,8 @@ D=M
 D=M-D
 @PUSH_TRUE_TO_THIS
 D;JLT
+@THIS
+M=0
 (StackTest.lt4)
 @3
 D=M
@@ -268,6 +278,8 @@ D=M
 D=M-D
 @PUSH_TRUE_TO_THIS
 D;JLT
+@THIS
+M=0
 (StackTest.lt5)
 @3
 D=M
@@ -312,6 +324,8 @@ D=M
 D=M-D
 @PUSH_TRUE_TO_THIS
 D;JGT
+@THIS
+M=0
 (StackTest.gt6)
 @3
 D=M
@@ -356,6 +370,8 @@ D=M
 D=M-D
 @PUSH_TRUE_TO_THIS
 D;JGT
+@THIS
+M=0
 (StackTest.gt7)
 @3
 D=M
@@ -400,6 +416,8 @@ D=M
 D=M-D
 @PUSH_TRUE_TO_THIS
 D;JGT
+@THIS
+M=0
 (StackTest.gt8)
 @3
 D=M

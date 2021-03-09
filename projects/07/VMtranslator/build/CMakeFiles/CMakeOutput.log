@@ -28,16 +28,16 @@ The CXX compiler identification is Clang, found in "D:/Git/n2t/projects/07/VMtra
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: D:/Git/n2t/projects/07/VMtranslator/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):E:/ninja/bin/ninja.exe cmTC_21597 && [1/2] Building C object CMakeFiles/cmTC_21597.dir/CMakeCCompilerABI.c.obj
-[2/2] Linking C executable cmTC_21597.exe
+Run Build Command(s):E:/ninja/bin/ninja.exe cmTC_cbd02 && [1/2] Building C object CMakeFiles/cmTC_cbd02.dir/CMakeCCompilerABI.c.obj
+[2/2] Linking C executable cmTC_cbd02.exe
 
 
 
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: D:/Git/n2t/projects/07/VMtranslator/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):E:/ninja/bin/ninja.exe cmTC_fa229 && [1/2] Building CXX object CMakeFiles/cmTC_fa229.dir/CMakeCXXCompilerABI.cpp.obj
-[2/2] Linking CXX executable cmTC_fa229.exe
+Run Build Command(s):E:/ninja/bin/ninja.exe cmTC_5a45e && [1/2] Building CXX object CMakeFiles/cmTC_5a45e.dir/CMakeCXXCompilerABI.cpp.obj
+[2/2] Linking CXX executable cmTC_5a45e.exe
 
 
 
@@ -46,8 +46,8 @@ Run Build Command(s):E:/ninja/bin/ninja.exe cmTC_fa229 && [1/2] Building CXX obj
 Detecting CXX [-std=c++14] compiler features compiled with the following output:
 Change Dir: D:/Git/n2t/projects/07/VMtranslator/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):E:/ninja/bin/ninja.exe cmTC_92972 && [1/2] Building CXX object CMakeFiles/cmTC_92972.dir/feature_tests.cxx.obj
-[2/2] Linking CXX executable cmTC_92972.exe
+Run Build Command(s):E:/ninja/bin/ninja.exe cmTC_9a28a && [1/2] Building CXX object CMakeFiles/cmTC_9a28a.dir/feature_tests.cxx.obj
+[2/2] Linking CXX executable cmTC_9a28a.exe
 
 
 
@@ -112,8 +112,8 @@ Run Build Command(s):E:/ninja/bin/ninja.exe cmTC_92972 && [1/2] Building CXX obj
 Detecting CXX [-std=c++14] compiler features compiled with the following output:
 Change Dir: D:/Git/n2t/projects/07/VMtranslator/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):E:/ninja/bin/ninja.exe cmTC_12cea && [1/2] Building CXX object CMakeFiles/cmTC_12cea.dir/feature_tests.cxx.obj
-[2/2] Linking CXX executable cmTC_12cea.exe
+Run Build Command(s):E:/ninja/bin/ninja.exe cmTC_e6125 && [1/2] Building CXX object CMakeFiles/cmTC_e6125.dir/feature_tests.cxx.obj
+[2/2] Linking CXX executable cmTC_e6125.exe
 
 
 

@@ -1,6 +1,6 @@
 # ninja log v5
-8	539	6369853520598770	CMakeFiles/VMtranslator.dir/src/utility.cpp.obj	31bbb7b4f774a6fc
-1	814	6369853523363930	CMakeFiles/VMtranslator.dir/src/main.cpp.obj	d50f79e2496496ea
-4	888	6369853524113919	CMakeFiles/VMtranslator.dir/src/VMparser.cpp.obj	412a536b25cfe03f
-6	985	6369853525073940	CMakeFiles/VMtranslator.dir/src/CodeWriter.cpp.obj	19ab6bd3ee061c76
-985	1133	6369853526213935	VMtranslator.exe	a637076f12623db7
+13	715	6369916247832685	CMakeFiles/VMtranslator.dir/src/utility.cpp.obj	31bbb7b4f774a6fc
+3	971	6369916250409975	CMakeFiles/VMtranslator.dir/src/main.cpp.obj	d50f79e2496496ea
+7	986	6369916250519936	CMakeFiles/VMtranslator.dir/src/VMparser.cpp.obj	412a536b25cfe03f
+10	1105	6369916251779908	CMakeFiles/VMtranslator.dir/src/CodeWriter.cpp.obj	19ab6bd3ee061c76
+1105	1244	6369916252779934	VMtranslator.exe	a637076f12623db7

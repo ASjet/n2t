@@ -1,2 +1,14 @@
+(EQ)
+@NEXT
+D=A
+@LCL
+M=D
+@THAT
+D=M
 @THIS
-M=-M
+D=M-D
+@PUSH_TRUE_TO_THIS
+D;JLT
+@THIS
+M=0
+(NEXT)
