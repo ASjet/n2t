@@ -3,10 +3,10 @@
 std::map<std::string, int> SEGMENT_MAP = {
     {"pointer", 3},
 };
-std::string GET_OPERATOR("@THAT\r\nD=M\r\n@THIS\r\n");
-std::string JUDGE("D=A\r\n@LCL\r\nM=D\r\n@THAT\r\nD=M\r\n@THIS\r\nD=M-D\r\n@PUSH_TRUE_TO_THIS\r\n");
-std::string INC_STACK_POINTER("@SP\r\nM=M+1\r\n");
-std::string DEC_STACK_POINTER("@SP\r\nM=M-1\r\n");
+std::string GET_OPERATOR("@THAT\nD=M\n@THIS\n");
+std::string JUDGE("\nD=A\n@LCL\nM=D\n@THAT\nD=M\n@THIS\nD=M-D\n@PUSH_TRUE_TO_THIS\n");
+std::string INC_STACK_POINTER("@SP\nM=M+1\n");
+std::string DEC_STACK_POINTER("@SP\nM=M-1\n");
 ////////////////////////////////////////////////////////////////////////////////
 inline void CodeWriter::constructor(std::ofstream& _OutputFile)
 {
@@ -19,71 +19,69 @@ void CodeWriter::setFileName(const std::string _FileName)
 }
 void CodeWriter::writeArithmetic(std::string _Command)
 {
-    std::string label = Name + std::string(".") + _Command + std::to_string(ArithmeticCnt) + std::string("\r\n");
+    std::string label = Name + std::string(".") + _Command + std::to_string(ArithmeticCnt);
     if(_Command == "add")
     {
         CodeWriter::writePushPop(C_POP,"pointer",1);
         CodeWriter::writePushPop(C_POP,"pointer",0);
-        *File << GET_OPERATOR << "M=M+D\r\n";
+        *File << GET_OPERATOR << "M=M+D\n";
         CodeWriter::writePushPop(C_PUSH,"pointer",0);
     }
     else if(_Command == "sub")
     {
         CodeWriter::writePushPop(C_POP,"pointer",1);
         CodeWriter::writePushPop(C_POP,"pointer",0);
-        *File << GET_OPERATOR << "M=M-D\r\n";
+        *File << GET_OPERATOR << "M=M-D\n";
         CodeWriter::writePushPop(C_PUSH,"pointer",0);
     }
-    else if(_Command == "neq")
+    else if(_Command == "neg")
     {
-        CodeWriter::writePushPop(C_POP,"pointer",1);
         CodeWriter::writePushPop(C_POP,"pointer",0);
-        *File << '@' << label << JUDGE << "D;JNE\r\n"
-              << '(' << label << ")\r\n";
+        *File << "@THIS\nM=-M\n";
         CodeWriter::writePushPop(C_PUSH,"pointer",0);
     }
     else if(_Command == "eq")
     {
         CodeWriter::writePushPop(C_POP,"pointer",1);
         CodeWriter::writePushPop(C_POP,"pointer",0);
-        *File << '@' << label << JUDGE << "D;JEQ\r\n"
-              << '(' << label << ")\r\n";
+        *File << '@' << label << JUDGE << "D;JEQ\n"
+              << '(' << label << ")\n";
         CodeWriter::writePushPop(C_PUSH,"pointer",0);
     }
     else if(_Command == "gt")
     {
         CodeWriter::writePushPop(C_POP,"pointer",1);
         CodeWriter::writePushPop(C_POP,"pointer",0);
-        *File << '@' << label << JUDGE << "D;JGT\r\n"
-              << '(' << label << ")\r\n";
+        *File << '@' << label << JUDGE << "D;JGT\n"
+              << '(' << label << ")\n";
         CodeWriter::writePushPop(C_PUSH,"pointer",0);
     }
     else if(_Command == "lt")
     {
         CodeWriter::writePushPop(C_POP,"pointer",1);
         CodeWriter::writePushPop(C_POP,"pointer",0);
-        *File << '@' << label << JUDGE << "D;JLT\r\n"
-              << '(' << label << ")\r\n";
+        *File << '@' << label << JUDGE << "D;JLT\n"
+              << '(' << label << ")\n";
         CodeWriter::writePushPop(C_PUSH,"pointer",0);
     }
     else if(_Command == "and")
     {
         CodeWriter::writePushPop(C_POP,"pointer",1);
         CodeWriter::writePushPop(C_POP,"pointer",0);
-        *File << GET_OPERATOR << "M=M&D\r\n";
+        *File << GET_OPERATOR << "M=M&D\n";
         CodeWriter::writePushPop(C_PUSH,"pointer",0);
     }
     else if(_Command == "or")
     {
         CodeWriter::writePushPop(C_POP,"pointer",1);
         CodeWriter::writePushPop(C_POP,"pointer",0);
-        *File << GET_OPERATOR << "M=M|D\r\n";
+        *File << GET_OPERATOR << "M=M|D\n";
         CodeWriter::writePushPop(C_PUSH,"pointer",0);
     }
     else if(_Command == "not")
     {
         CodeWriter::writePushPop(C_POP,"pointer",0);
-        *File << "@THIS\r\nM=!M\r\n";
+        *File << "@THIS\nM=!M\n";
         CodeWriter::writePushPop(C_PUSH,"pointer",0);
     }
     else
@@ -97,11 +95,11 @@ void CodeWriter::writePushPop(COMMAND_TYPE _Command, std::string _Segment, int _
         if(_Segment == "constant")
         {
             _Index %= 32768;
-            *File << '@' << _Index << "\r\nD=A\r\n@SP\r\nA=M\r\nM=D\r\n";
+            *File << '@' << _Index << "\nD=A\n@SP\nA=M\nM=D\n";
         }
         else if(_Segment == "pointer")
         {
-            *File << '@' << SEGMENT_MAP[_Segment] + _Index << "\r\nD=M\r\n@SP\r\nA=M\r\nM=D\r\n";
+            *File << '@' << SEGMENT_MAP[_Segment] + _Index << "\nD=M\n@SP\nA=M\nM=D\n";
         }
         *File << INC_STACK_POINTER;
     }
@@ -109,7 +107,7 @@ void CodeWriter::writePushPop(COMMAND_TYPE _Command, std::string _Segment, int _
     {
         if(_Segment == "pointer")
         {
-            *File << "@SP\r\nM=M-1\r\nA=M\r\nD=M\r\n@" << SEGMENT_MAP[_Segment] + _Index << "\r\nM=D\r\n";
+            *File << "@SP\nM=M-1\nA=M\nD=M\n@" << SEGMENT_MAP[_Segment] + _Index << "\nM=D\n";
         }
     }
 }

@@ -1,2 +1,8 @@
-push constant 257
-pop pointer 0
+argument
+local
+static
+constant
+this
+that
+pointer
+temp

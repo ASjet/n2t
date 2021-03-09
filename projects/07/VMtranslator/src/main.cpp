@@ -30,9 +30,9 @@ int main(int argc, char **argv)
     output_asm_file.open(asm_filepath,std::ios::out);
 
     // Write initialize assembly code
-    output_asm_file << "@256\r\nD=A\r\n@SP\r\nM=D\r\n@MAIN\r\n0;JMP\r\n"
-                    << "(PUSH_TRUE_TO_THIS)\r\n@THIS\r\nM=0\r\nM=M-1\r\n"
-                    << "@LCL\r\nA=M\r\n0;JMP\r\n(MAIN)\r\n";
+    output_asm_file << "@256\nD=A\n@SP\nM=D\n@MAIN\n0;JMP\n"
+                    << "(PUSH_TRUE_TO_THIS)\n@THIS\nM=0\nM=M-1\n"
+                    << "@LCL\nA=M\n0;JMP\n(MAIN)\n";
 
     CodeWriter writer(output_asm_file);
     Parser parser;
@@ -44,11 +44,11 @@ int main(int argc, char **argv)
         for(int j = 0; argv[i][j] != '\0'; ++j)
         {
             if(argv[i][j] == FILE_SEPARATOR)
-                offset = j;
+                offset = j+1;
             if(argv[i][j] == '.')
-                size = j;
+                size = j-offset;
         }
-        string vm_filename = string(argv[i]).substr(offset,size-1);
+        string vm_filename = string(argv[i]).substr(offset,size);
 
         input_vm_file.open(argv[i],std::ios::in);
         writer.setFileName(vm_filename);
