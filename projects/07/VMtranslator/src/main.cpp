@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 
     // Write initialize assembly code
     output_asm_file << "@256\nD=A\n@SP\nM=D\n@MAIN\n0;JMP\n"
-                    << "(PUSH_TRUE_TO_THIS)\n@THIS\nM=0\nM=M-1\n"
+                    << "(PUSH_TRUE)\n@SP\nA=M\nM=0\nM=M-1\n@SP\nM=M+1\n"
                     << "@LCL\nA=M\n0;JMP\n(MAIN)\n";
 
     CodeWriter writer(output_asm_file);
@@ -75,6 +75,7 @@ int main(int argc, char **argv)
                 break;
         }
         input_vm_file.close();
+        SEGMENT_MAP["static"] += 10;
     }
     output_asm_file.close();
 }
