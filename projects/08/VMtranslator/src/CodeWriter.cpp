@@ -5,12 +5,12 @@ std::map<std::string, int> SEGMENT_MAP = {
     {"temp",5},
     {"static",16}
 };
-std::string GET_ONE_OPERATOR("@SP\nM=M-1\nA=M\n");
-std::string GET_TWO_OPERATOR("@SP\nM=M-1\nA=M\nD=M\n@SP\nM=M-1\nA=M\n");
+std::string POP_M("@SP\nA=M-1\n");
+std::string POP_D_POP_M("@SP\nA=M-1\nD=M\n@SP\nA=M-1\n");
 std::string PUSH_SEGMENT_OFFSET("A=A+D\nD=M\n@SP\nA=M\nM=D\n");
-std::string POP_D("@SP\nM=M-1\nA=M\nD=M\n");
+std::string POP_D("@SP\nA=M-1\nD=M\n");
 std::string PUSH_D("@SP\nA=M\nM=D\n@SP\nM=M+1\n");
-std::string SAVE_A_TO_LCL("\nD=A\n@LCL\nM=D\n");
+std::string SAVE_A_TO_R15("\nD=A\n@R15\nM=D\n");
 std::string INC_SP("@SP\nM=M+1\n");
 ////////////////////////////////////////////////////////////////////////////////
 inline void CodeWriter::constructor(std::ofstream& _OutputFile)
@@ -30,45 +30,45 @@ void CodeWriter::writeArithmetic(std::string _Command)
     std::string label = Name + std::string(".") + _Command + std::to_string(ArithmeticCnt);
     if(_Command == "add")
     {
-        *File << GET_TWO_OPERATOR << "M=M+D\n" << INC_SP;
+        *File << POP_D_POP_M << "M=M+D\n" << INC_SP;
     }
     else if(_Command == "sub")
     {
-        *File << GET_TWO_OPERATOR << "M=M-D\n" << INC_SP;
+        *File << POP_D_POP_M << "M=M-D\n" << INC_SP;
     }
     else if(_Command == "neg")
     {
-        *File << GET_ONE_OPERATOR << "M=-M\n" << INC_SP;
+        *File << POP_M << "M=-M\n" << INC_SP;
     }
     else if(_Command == "eq")
     {
-        *File << '@' << label << SAVE_A_TO_LCL << GET_TWO_OPERATOR
+        *File << '@' << label << SAVE_A_TO_R15 << POP_D_POP_M
               << "D=M-D\n@PUSH_TRUE\nD;JEQ\n@SP\nA=M\nM=0\n"
               << INC_SP << '(' << label << ")\n";
     }
     else if(_Command == "gt")
     {
-        *File << '@' << label << SAVE_A_TO_LCL << GET_TWO_OPERATOR
+        *File << '@' << label << SAVE_A_TO_R15 << POP_D_POP_M
               << "D=M-D\n@PUSH_TRUE\nD;JGT\n@SP\nA=M\nM=0\n"
               << INC_SP << '(' << label << ")\n";
     }
     else if(_Command == "lt")
     {
-        *File << '@' << label << SAVE_A_TO_LCL << GET_TWO_OPERATOR
+        *File << '@' << label << SAVE_A_TO_R15 << POP_D_POP_M
               << "D=M-D\n@PUSH_TRUE\nD;JLT\n@SP\nA=M\nM=0\n"
               << INC_SP << '(' << label << ")\n";
     }
     else if(_Command == "and")
     {
-        *File << GET_TWO_OPERATOR << "M=M&D\n" << INC_SP;
+        *File << POP_D_POP_M << "M=M&D\n" << INC_SP;
     }
     else if(_Command == "or")
     {
-        *File << GET_TWO_OPERATOR << "M=M|D\n" << INC_SP;
+        *File << POP_D_POP_M << "M=M|D\n" << INC_SP;
     }
     else if(_Command == "not")
     {
-        *File << GET_ONE_OPERATOR << "M=!M\n" << INC_SP;
+        *File << POP_M << "M=!M\n" << INC_SP;
     }
     else
         std::cerr << "Unknown command \"" << _Command << '\"' << std::endl;
@@ -123,8 +123,8 @@ void CodeWriter::writePushPop(COMMAND_TYPE _Command, std::string _Segment, int _
 void CodeWriter::writeInit()
 {
     *File << "@256\nD=A\n@SP\nM=D\n@MAIN\n0;JMP\n"
-          << "(PUSH_TRUE)\n@SP\nA=M\nM=0\nM=M-1\n@SP\nM=M+1\n"
-          << "@LCL\nA=M\n0;JMP\n(MAIN)\n";
+          << "(PUSH_TRUE)\n@SP\nA=M\nM=-1\n@SP\nM=M+1\n@R15\nA=M\n0;JMP\n(MAIN)\n";
+    writeCall("Sys.init",0);
 }
 
 void CodeWriter::writeLabel(std::string _Label)
@@ -170,7 +170,7 @@ void CodeWriter::writeReturn()
 
 void CodeWriter::writeFunction(std::string _FunctionName, int _NumLocals)
 {
-    *File << '(' << _FunctionName << ")\n@LCL\nD=M\n@SP\nM=D\n";
+    *File << '(' << _FunctionName << ")\n";
     while(_NumLocals--)
         writePushPop(C_PUSH,"constant",0);
 }

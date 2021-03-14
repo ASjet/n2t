@@ -12,3 +12,19 @@ D=M
 D=D-1
 A=D
 D=M
+
+
+// Stack
+// return_address
+(PUSH_TRUE)
+@SP
+A=M
+M=-1
+@SP
+M=M+1
+@R15
+A=M
+0;JMP
+
+@Sys.init
+0;JMP

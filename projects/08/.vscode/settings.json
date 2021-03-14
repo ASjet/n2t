@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "vector": "cpp"
+        "vector": "cpp",
+        "string": "cpp"
     },
     "cmake.sourceDirectory": "${workspaceFolder}/VMtranslator",
     "cmake.configureOnOpen": true

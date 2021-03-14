@@ -1,0 +1,22 @@
+[
+{
+  "directory": "D:/Git/n2t/projects/08/build",
+  "command": "E:\\MinGW64\\bin\\g++.exe  @CMakeFiles/VMtranslator.dir/includes_CXX.rsp -g -o CMakeFiles\\VMtranslator.dir\\src\\main.cpp.obj -c D:\\Git\\n2t\\projects\\08\\VMtranslator\\src\\main.cpp",
+  "file": "D:/Git/n2t/projects/08/VMtranslator/src/main.cpp"
+},
+{
+  "directory": "D:/Git/n2t/projects/08/build",
+  "command": "E:\\MinGW64\\bin\\g++.exe  @CMakeFiles/VMtranslator.dir/includes_CXX.rsp -g -o CMakeFiles\\VMtranslator.dir\\src\\VMparser.cpp.obj -c D:\\Git\\n2t\\projects\\08\\VMtranslator\\src\\VMparser.cpp",
+  "file": "D:/Git/n2t/projects/08/VMtranslator/src/VMparser.cpp"
+},
+{
+  "directory": "D:/Git/n2t/projects/08/build",
+  "command": "E:\\MinGW64\\bin\\g++.exe  @CMakeFiles/VMtranslator.dir/includes_CXX.rsp -g -o CMakeFiles\\VMtranslator.dir\\src\\CodeWriter.cpp.obj -c D:\\Git\\n2t\\projects\\08\\VMtranslator\\src\\CodeWriter.cpp",
+  "file": "D:/Git/n2t/projects/08/VMtranslator/src/CodeWriter.cpp"
+},
+{
+  "directory": "D:/Git/n2t/projects/08/build",
+  "command": "E:\\MinGW64\\bin\\g++.exe  @CMakeFiles/VMtranslator.dir/includes_CXX.rsp -g -o CMakeFiles\\VMtranslator.dir\\src\\utility.cpp.obj -c D:\\Git\\n2t\\projects\\08\\VMtranslator\\src\\utility.cpp",
+  "file": "D:/Git/n2t/projects/08/VMtranslator/src/utility.cpp"
+}
+]
